@@ -1,0 +1,6 @@
+flask>=3.0
+paho-mqtt>=2.0
+Adafruit-DHT>=1.4
+RPi.GPIO>=0.7
+adafruit-circuitpython-ssd1306>=2.12
+Pillow>=10.0

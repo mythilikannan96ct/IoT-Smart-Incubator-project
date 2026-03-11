@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IoT Smart Incubator — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@200;300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #030a0f;
+  --bg2: #060f17;
+  --surface: #0a1a24;
+  --surface2: #0f2233;
+  --border: #1a3448;
+  --border2: #0f2030;
+  --green: #00e5a0;
+  --green2: #00b87a;
+  --green-dim: rgba(0,229,160,0.08);
+  --orange: #ff7c3a;
+  --blue: #38b4ff;
+  --red: #ff4c6a;
+  --yellow: #ffd166;
+  --text: #d0e8f0;
+  --text2: #5a8090;
+  --text3: #2a5060;
+  --mono: 'Share Tech Mono', monospace;
+  --sans: 'Outfit', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 15px;
+  overflow-x: hidden;
+}
+
+/* ── SCAN LINE OVERLAY ─────────────────────────────── */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.04) 2px,
+    rgba(0,0,0,0.04) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── ANIMATED GRID BG ──────────────────────────────── */
+.grid-bg {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,160,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,160,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+
+/* ── HERO ──────────────────────────────────────────── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 24px;
+  position: relative;
+}
+
+.hero-badge {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  border: 1px solid rgba(0,229,160,0.3);
+  padding: 6px 16px;
+  border-radius: 20px;
+  background: var(--green-dim);
+  margin-bottom: 32px;
+  animation: fadeUp 0.6s ease both;
+}
+
+.hero-badge::before {
+  content: '●';
+  margin-right: 8px;
+  animation: blink 1.2s infinite;
+}
+
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+.hero h1 {
+  font-family: var(--sans);
+  font-weight: 900;
+  font-size: clamp(40px, 8vw, 90px);
+  line-height: 0.95;
+  letter-spacing: -3px;
+  background: linear-gradient(135deg, #ffffff 30%, var(--green) 70%, var(--blue) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 8px;
+  animation: fadeUp 0.7s 0.1s ease both;
+}
+
+.hero-sub {
+  font-size: clamp(16px, 2.5vw, 22px);
+  color: var(--text2);
+  font-weight: 300;
+  margin-bottom: 40px;
+  animation: fadeUp 0.7s 0.2s ease both;
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 48px;
+  animation: fadeUp 0.7s 0.3s ease both;
+}
+
+.tag {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  color: var(--text2);
+}
+.tag.green { border-color: rgba(0,229,160,0.4); color: var(--green); background: var(--green-dim); }
+.tag.orange { border-color: rgba(255,124,58,0.4); color: var(--orange); background: rgba(255,124,58,0.08); }
+.tag.blue { border-color: rgba(56,180,255,0.4); color: var(--blue); background: rgba(56,180,255,0.08); }
+
+/* ── LIVE MOCKUP ────────────────────────────────────── */
+.mockup-wrap {
+  width: 100%;
+  max-width: 900px;
+  animation: fadeUp 0.8s 0.4s ease both;
+  margin-bottom: 48px;
+}
+
+.terminal {
+  background: #060e14;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 60px rgba(0,229,160,0.08), 0 24px 60px rgba(0,0,0,0.6);
+}
+
+.term-bar {
+  background: var(--surface);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.term-dot { width: 12px; height: 12px; border-radius: 50%; }
+.td-r { background: #ff5f57; }
+.td-y { background: #febc2e; }
+.td-g { background: #28c840; }
+.term-title {
+  margin-left: 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text2);
+}
+
+.term-body {
+  padding: 20px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.t-dim    { color: var(--text3); }
+.t-green  { color: var(--green); }
+.t-orange { color: var(--orange); }
+.t-blue   { color: var(--blue); }
+.t-red    { color: var(--red); }
+.t-yellow { color: var(--yellow); }
+.t-white  { color: #fff; }
+
+/* Live sensor dashboard */
+.sensor-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 16px 0;
+}
+
+.sensor-cell {
+  background: #060e14;
+  padding: 14px 16px;
+  text-align: center;
+}
+
+.sensor-label {
+  font-size: 10px;
+  color: var(--text3);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.sensor-val {
+  font-size: 28px;
+  font-weight: 700;
+  font-family: var(--mono);
+}
+
+.sensor-unit {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 2px;
+}
+
+.relay-row {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+
+.relay-pill {
+  font-size: 11px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-family: var(--mono);
+  letter-spacing: 1px;
+  border: 1px solid;
+  transition: all 0.3s;
+}
+
+.relay-on  { background: rgba(0,229,160,0.1); color: var(--green); border-color: rgba(0,229,160,0.4); }
+.relay-off { background: rgba(0,0,0,0.3); color: var(--text3); border-color: var(--border2); }
+
+/* ── SCROLL INDICATOR ──────────────────────────────── */
+.scroll-hint {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--text3);
+  font-size: 11px;
+  font-family: var(--mono);
+  animation: fadeUp 1s 1s ease both;
+}
+
+.scroll-arrow { animation: bounce 1.5s infinite; }
+@keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+/* ── SECTIONS ──────────────────────────────────────── */
+section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 80px 32px;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--green);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: clamp(28px, 4vw, 44px);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.section-body {
+  color: var(--text2);
+  line-height: 1.8;
+  max-width: 600px;
+}
+
+hr.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 0;
+}
+
+/* ── ARCHITECTURE ──────────────────────────────────── */
+.arch-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 48px;
+}
+
+.arch-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  transition: border-color 0.2s, transform 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.arch-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.arch-card.g::before { background: linear-gradient(90deg, var(--green), transparent); }
+.arch-card.o::before { background: linear-gradient(90deg, var(--orange), transparent); }
+.arch-card.b::before { background: linear-gradient(90deg, var(--blue), transparent); }
+
+.arch-card:hover {
+  border-color: rgba(0,229,160,0.3);
+  transform: translateY(-3px);
+}
+
+.arch-icon {
+  font-size: 28px;
+  margin-bottom: 14px;
+}
+
+.arch-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.arch-card p {
+  color: var(--text2);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.arch-card .chip {
+  margin-top: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+}
+
+/* ── CODE TABS ──────────────────────────────────────── */
+.code-section {
+  margin-top: 48px;
+}
+
+.tab-bar {
+  display: flex;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  font-family: var(--mono);
+  font-size: 12px;
+  padding: 10px 20px;
+  color: var(--text3);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  transition: color 0.15s;
+}
+
+.tab-btn:hover { color: var(--text); }
+.tab-btn.active { color: var(--green); border-bottom-color: var(--green); }
+
+.code-pane {
+  display: none;
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  padding: 24px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-x: auto;
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+.code-pane.active { display: block; }
+
+/* Syntax */
+.kw  { color: #ff7c9a; }
+.fn  { color: #c3a6ff; }
+.st  { color: #80d4ff; }
+.cm  { color: #3a6070; font-style: italic; }
+.nm  { color: #ffd166; }
+.op  { color: #ff7c9a; }
+.cl  { color: #ffb86c; }
+.dc  { color: var(--green); }
+
+/* ── WIRING DIAGRAM ─────────────────────────────────── */
+.wiring-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 13px;
+  margin-top: 32px;
+}
+
+.wiring-table th {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 10px 16px;
+  text-align: left;
+  color: var(--green);
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+.wiring-table td {
+  border: 1px solid var(--border2);
+  padding: 8px 16px;
+  color: var(--text2);
+}
+
+.wiring-table tr:hover td { background: rgba(0,229,160,0.03); }
+
+.pin { color: var(--orange); }
+.component { color: var(--blue); }
+
+/* ── FEATURES ───────────────────────────────────────── */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 40px;
+}
+
+.feature-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 16px;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  border-radius: 8px;
+}
+
+.feature-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.feature-item h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.feature-item p {
+  font-size: 12px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+
+/* ── INSTALL ────────────────────────────────────────── */
+.install-block {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.9;
+  margin-top: 32px;
+}
+
+.prompt { color: var(--green); user-select: none; }
+.cmd    { color: var(--text); }
+.cmt    { color: var(--text3); }
+
+/* ── FOOTER ─────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  padding: 40px 24px;
+  color: var(--text3);
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+footer a { color: var(--green); text-decoration: none; }
+
+/* ── ANIMATIONS ─────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  .arch-grid     { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .sensor-grid   { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<div class="grid-bg"></div>
+
+<!-- ══ HERO ════════════════════════════════════════════ -->
+<div class="hero">
+  <div class="hero-badge">Live System Online</div>
+
+  <h1>IoT Smart<br>Incubator</h1>
+  <p class="hero-sub">Raspberry Pi · DHT22 · MQTT · Flask · Arduino</p>
+
+  <div class="hero-tags">
+    <span class="tag green">Python 3.11</span>
+    <span class="tag orange">Raspberry Pi 4</span>
+    <span class="tag blue">MQTT / IoT</span>
+    <span class="tag">DHT22 + DS18B20</span>
+    <span class="tag">PID Control</span>
+    <span class="tag">Flask Dashboard</span>
+    <span class="tag orange">Arduino C++</span>
+    <span class="tag">GPIO / Relay</span>
+  </div>
+
+  <!-- LIVE TERMINAL MOCKUP -->
+  <div class="mockup-wrap">
+    <div class="terminal">
+      <div class="term-bar">
+        <div class="term-dot td-r"></div>
+        <div class="term-dot td-y"></div>
+        <div class="term-dot td-g"></div>
+        <span class="term-title">incubator@raspberrypi:~ — incubator_controller.py</span>
+      </div>
+      <div class="term-body">
+        <div><span class="t-green">🐣 Incubator started</span> <span class="t-dim">— CHICKEN eggs</span></div>
+        <div><span class="t-dim">   Target: </span><span class="t-orange">37.5°C</span><span class="t-dim"> | </span><span class="t-blue">57% RH</span><span class="t-dim"> | Turn every 4h</span></div>
+        <div><span class="t-dim">   Start date: 2024-03-01 | Day </span><span class="t-white">12</span><span class="t-dim">/21 | Lockdown day 18</span></div>
+        <br>
+
+        <!-- LIVE SENSOR DISPLAY -->
+        <div class="sensor-grid">
+          <div class="sensor-cell">
+            <div class="sensor-label">Temp</div>
+            <div class="sensor-val t-orange" id="s-temp">37.4</div>
+            <div class="sensor-unit">°C / 37.5</div>
+          </div>
+          <div class="sensor-cell">
+            <div class="sensor-label">Humidity</div>
+            <div class="sensor-val t-blue" id="s-hum">58</div>
+            <div class="sensor-unit">% / 57</div>
+          </div>
+          <div class="sensor-cell">
+            <div class="sensor-label">Egg Probe</div>
+            <div class="sensor-val t-yellow" id="s-egg">37.2</div>
+            <div class="sensor-unit">°C DS18B20</div>
+          </div>
+          <div class="sensor-cell">
+            <div class="sensor-label">Day</div>
+            <div class="sensor-val t-green" id="s-day">12</div>
+            <div class="sensor-unit">of 21</div>
+          </div>
+        </div>
+
+        <div class="relay-row">
+          <span class="relay-pill relay-on"  id="r-heat">HEATER ●</span>
+          <span class="relay-pill relay-on"  id="r-fan">FAN ●</span>
+          <span class="relay-pill relay-off" id="r-hum">HUMIDIFIER ○</span>
+          <span class="relay-pill relay-off" id="r-turn">TURNER ○</span>
+        </div>
+
+        <div><span class="t-dim">[14:22:07] </span><span class="t-green">✓  All OK</span><span class="t-dim"> | PID output: </span><span class="t-orange" id="s-pid">68.2</span><span class="t-dim">% | MQTT published</span></div>
+        <div><span class="t-dim">[14:22:17] </span><span class="t-green">✓  All OK</span><span class="t-dim"> | Next turn in: </span><span class="t-blue" id="s-turn">2h 18m</span></div>
+        <div id="live-line"><span class="t-dim">[</span><span class="t-green" id="s-time">--:--:--</span><span class="t-dim">] </span><span class="t-green">●</span><span class="t-dim"> Waiting...</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>scroll to explore</span>
+    <span class="scroll-arrow">▼</span>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ ARCHITECTURE ══════════════════════════════════ -->
+<section>
+  <div class="section-label">System Design</div>
+  <h2 class="section-title">Full-Stack IoT Architecture</h2>
+  <p class="section-body">A layered hardware-software system built for reliability — with PID temperature control, MQTT telemetry, OLED status display, and a live web dashboard. Runs 24/7 on a Raspberry Pi 4.</p>
+
+  <div class="arch-grid">
+    <div class="arch-card g">
+      <div class="arch-icon">🌡️</div>
+      <h3>Sensor Layer</h3>
+      <p>DHT22 for air temp + humidity, DS18B20 for egg surface probe. Rolling 5-sample average for noise rejection. Retry logic with hardware fault detection.</p>
+      <div class="chip">DHT22 · DS18B20 · 1-Wire · GPIO</div>
+    </div>
+    <div class="arch-card o">
+      <div class="arch-icon">⚙️</div>
+      <h3>Control Layer</h3>
+      <p>PID temperature controller with anti-windup. Bang-bang humidity control. Egg turning scheduler with lockdown detection. All relay states managed via RPi GPIO.</p>
+      <div class="chip">PID · 4-CH Relay · L298N · Threading</div>
+    </div>
+    <div class="arch-card b">
+      <div class="arch-icon">📡</div>
+      <h3>Network Layer</h3>
+      <p>MQTT publishes sensor + relay telemetry every 10 seconds to local broker. Flask REST API for remote control. Live JSONL data log with CSV export.</p>
+      <div class="chip">MQTT · Flask · Paho · REST API</div>
+    </div>
+    <div class="arch-card g">
+      <div class="arch-icon">🖥️</div>
+      <h3>Display Layer</h3>
+      <p>SSD1306 128×64 OLED shows live readings, day counter, and alarm state. Web dashboard with Chart.js trend graphs. Buzzer for alarm notifications.</p>
+      <div class="chip">SSD1306 · I2C · Chart.js · PIL</div>
+    </div>
+    <div class="arch-card o">
+      <div class="arch-icon">🔄</div>
+      <h3>Turner Module</h3>
+      <p>Standalone Arduino Nano with L298N motor driver, limit switches, RTC DS3231, and LCD. Communicates with Pi via UART JSON. Independent fallback operation.</p>
+      <div class="chip">Arduino · L298N · DS3231 · ISR</div>
+    </div>
+    <div class="arch-card b">
+      <div class="arch-icon">🥚</div>
+      <h3>Egg Profiles</h3>
+      <p>Pre-configured profiles for chicken (21d), duck (28d), quail (17d), goose (30d), and turkey (28d). Auto-switches to lockdown settings on schedule.</p>
+      <div class="chip">Chicken · Duck · Quail · Goose · Turkey</div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ CODE SHOWCASE ══════════════════════════════════ -->
+<section>
+  <div class="section-label">Source Code</div>
+  <h2 class="section-title">Key Modules</h2>
+
+  <div class="code-section">
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="showTab('pid')">PID Controller</button>
+      <button class="tab-btn" onclick="showTab('sensor')">Sensor Manager</button>
+      <button class="tab-btn" onclick="showTab('mqtt')">MQTT Publisher</button>
+      <button class="tab-btn" onclick="showTab('arduino')">Arduino Turner</button>
+      <button class="tab-btn" onclick="showTab('api')">Flask API</button>
+    </div>
+
+    <div id="tab-pid" class="code-pane active"><pre><span class="kw">class</span> <span class="cl">PIDController</span>:
+    <span class="cm">"""
+    PID controller for heater duty-cycle regulation.
+    Output: 0–100% duty cycle.
+    """</span>
+
+    <span class="kw">def</span> <span class="fn">__init__</span>(<span class="kw">self</span>, kp=<span class="nm">2.0</span>, ki=<span class="nm">0.5</span>, kd=<span class="nm">1.0</span>,
+                 setpoint=<span class="nm">37.5</span>):
+        <span class="kw">self</span>.kp        = kp
+        <span class="kw">self</span>.ki        = ki
+        <span class="kw">self</span>.kd        = kd
+        <span class="kw">self</span>.setpoint  = setpoint
+        <span class="kw">self</span>._integral = <span class="nm">0.0</span>
+        <span class="kw">self</span>._prev_err  = <span class="nm">0.0</span>
+        <span class="kw">self</span>._prev_time = <span class="kw">None</span>
+
+    <span class="kw">def</span> <span class="fn">update</span>(<span class="kw">self</span>, measured: <span class="cl">float</span>) -> <span class="cl">float</span>:
+        now = time.time()
+        dt  = (now - <span class="kw">self</span>._prev_time) <span class="kw">if</span> <span class="kw">self</span>._prev_time <span class="kw">else</span> <span class="nm">1.0</span>
+        <span class="kw">self</span>._prev_time = now
+
+        error = <span class="kw">self</span>.setpoint - measured
+
+        <span class="cm"># Anti-windup integral clamp</span>
+        <span class="kw">self</span>._integral += error * dt
+        <span class="kw">self</span>._integral  = max(<span class="nm">-50</span>, min(<span class="nm">50</span>, <span class="kw">self</span>._integral))
+
+        derivative = (error - <span class="kw">self</span>._prev_err) / dt
+        <span class="kw">self</span>._prev_err  = error
+
+        output = (<span class="kw">self</span>.kp * error
+                + <span class="kw">self</span>.ki * <span class="kw">self</span>._integral
+                + <span class="kw">self</span>.kd * derivative)
+
+        <span class="kw">return</span> max(<span class="nm">0.0</span>, min(<span class="nm">100.0</span>, output))</pre></div>
+
+    <div id="tab-sensor" class="code-pane"><pre><span class="kw">class</span> <span class="cl">SensorManager</span>:
+    <span class="cm">"""Rolling-average sensor reads with retry & validation."""</span>
+
+    <span class="kw">def</span> <span class="fn">get_reading</span>(<span class="kw">self</span>) -> Optional[<span class="cl">SensorReading</span>]:
+        temp, humid = <span class="kw">self</span>.<span class="fn">read_dht22</span>()
+        <span class="kw">if</span> temp <span class="kw">is</span> <span class="kw">None</span>:
+            log.<span class="fn">error</span>(<span class="st">"Sensor read failed"</span>)
+            <span class="kw">return None</span>
+
+        egg_temp = <span class="kw">self</span>.<span class="fn">read_ds18b20</span>()   <span class="cm"># 1-Wire probe</span>
+        reading  = <span class="cl">SensorReading</span>(temp, humid, egg_temp)
+
+        <span class="kw">self</span>._readings.<span class="fn">append</span>(reading)
+        <span class="kw">if</span> <span class="fn">len</span>(<span class="kw">self</span>._readings) > <span class="kw">self</span>._window:
+            <span class="kw">self</span>._readings.<span class="fn">pop</span>(<span class="nm">0</span>)
+        <span class="kw">return</span> reading
+
+    <span class="kw">def</span> <span class="fn">get_smoothed</span>(<span class="kw">self</span>) -> Optional[<span class="cl">SensorReading</span>]:
+        <span class="cm"># 5-sample rolling average</span>
+        n     = <span class="fn">len</span>(<span class="kw">self</span>._readings)
+        avg_t = <span class="fn">sum</span>(r.temperature_c <span class="kw">for</span> r <span class="kw">in</span> <span class="kw">self</span>._readings) / n
+        avg_h = <span class="fn">sum</span>(r.humidity_pct  <span class="kw">for</span> r <span class="kw">in</span> <span class="kw">self</span>._readings) / n
+        <span class="kw">return</span> <span class="cl">SensorReading</span>(<span class="fn">round</span>(avg_t, <span class="nm">2</span>), <span class="fn">round</span>(avg_h, <span class="nm">1</span>), <span class="kw">None</span>)
+
+    <span class="kw">def</span> <span class="fn">read_dht22</span>(<span class="kw">self</span>):
+        <span class="kw">for</span> attempt <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">3</span>):
+            h, t = Adafruit_DHT.<span class="fn">read_retry</span>(SENSOR_DHT22, PIN_DHT22)
+            <span class="kw">if</span> t <span class="kw">and</span> <span class="nm">10</span> <= t <= <span class="nm">50</span>:
+                <span class="kw">return</span> <span class="fn">round</span>(t, <span class="nm">2</span>), <span class="fn">round</span>(h, <span class="nm">1</span>)
+        <span class="kw">return None</span>, <span class="kw">None</span></pre></div>
+
+    <div id="tab-mqtt" class="code-pane"><pre><span class="kw">class</span> <span class="cl">MQTTPublisher</span>:
+    <span class="cm">"""Publishes telemetry to MQTT broker (Mosquitto)."""</span>
+
+    <span class="kw">def</span> <span class="fn">publish_telemetry</span>(<span class="kw">self</span>, reading, relays, alarms, config):
+        <span class="cm"># incubator/sensors</span>
+        <span class="kw">self</span>.<span class="fn">publish</span>(<span class="st">"sensors"</span>, reading.<span class="fn">to_dict</span>())
+
+        <span class="cm"># incubator/relays</span>
+        <span class="kw">self</span>.<span class="fn">publish</span>(<span class="st">"relays"</span>, relays.<span class="fn">to_dict</span>())
+
+        <span class="cm"># incubator/status</span>
+        <span class="kw">self</span>.<span class="fn">publish</span>(<span class="st">"status"</span>, {
+            <span class="st">"day"</span>:           config.day_number,
+            <span class="st">"days_remaining"</span>: config.days_remaining,
+            <span class="st">"is_lockdown"</span>:   config.is_lockdown,
+            <span class="st">"egg_type"</span>:      config.egg_type.value,
+            <span class="st">"alarms"</span>:        asdict(alarms),
+            <span class="st">"timestamp"</span>:     datetime.now().<span class="fn">isoformat</span>(),
+        })
+
+<span class="cm"># Subscribe with Mosquitto CLI:</span>
+<span class="cm"># mosquitto_sub -t "incubator/#" -v</span>
+<span class="cm">#</span>
+<span class="cm"># Output topics:</span>
+<span class="cm">#   incubator/sensors  → temp, humidity, egg_temp</span>
+<span class="cm">#   incubator/relays   → heater, fan, humidifier, turner</span>
+<span class="cm">#   incubator/status   → day, lockdown, alarms</span></pre></div>
+
+    <div id="tab-arduino" class="code-pane"><pre><span class="cm">// Arduino egg turner — 4h auto-turn with limit switches</span>
+
+<span class="kw">void</span> <span class="fn">performTurn</span>() {
+  Serial.<span class="fn">println</span>(<span class="st">"TURN_START"</span>);
+
+  <span class="cm">// Alternate direction each turn</span>
+  <span class="kw">bool</span> goRight = (state.totalTurns % <span class="nm">2</span> == <span class="nm">0</span>);
+
+  <span class="kw">if</span> (goRight && !state.atRightEnd)  <span class="fn">motorForward</span>();
+  <span class="kw">else if</span> (!goRight && !state.atLeftEnd) <span class="fn">motorReverse</span>();
+  <span class="kw">else</span> { goRight ? <span class="fn">motorReverse</span>() : <span class="fn">motorForward</span>(); }
+
+  <span class="cm">// Wait for limit switch or 30s timeout</span>
+  <span class="kw">unsigned long</span> startMs = <span class="fn">millis</span>();
+  <span class="kw">while</span> (state.direction != STOP
+      && !limitL_triggered && !limitR_triggered
+      && (<span class="fn">millis</span>() - startMs) < TURN_TIMEOUT_MS) {
+    <span class="fn">delay</span>(<span class="nm">50</span>);
+  }
+
+  <span class="fn">softStop</span>();         <span class="cm">// ramp down PWM</span>
+  state.totalTurns++;
+  <span class="fn">beep</span>(<span class="nm">1</span>, <span class="nm">80</span>);
+}
+
+<span class="cm">// ISR — fires instantly when limit switch hits</span>
+<span class="kw">void</span> <span class="fn">ISR_limitL</span>() { limitL_triggered = <span class="kw">true</span>; }
+<span class="kw">void</span> <span class="fn">ISR_limitR</span>() { limitR_triggered = <span class="kw">true</span>; }</pre></div>
+
+    <div id="tab-api" class="code-pane"><pre><span class="cm"># Flask REST API endpoints</span>
+
+<span class="dc">@app.route</span>(<span class="st">"/api/status"</span>)
+<span class="kw">def</span> <span class="fn">api_status</span>():
+    <span class="kw">return</span> <span class="fn">jsonify</span>(controller.<span class="fn">get_status</span>())
+
+<span class="dc">@app.route</span>(<span class="st">"/api/setpoint"</span>, methods=[<span class="st">"POST"</span>])
+<span class="kw">def</span> <span class="fn">api_setpoint</span>():
+    data = request.<span class="fn">get_json</span>()
+    <span class="kw">if</span> <span class="st">"temperature"</span> <span class="kw">in</span> data:
+        t = <span class="fn">float</span>(data[<span class="st">"temperature"</span>])
+        <span class="kw">if</span> <span class="nm">35</span> <= t <= <span class="nm">40</span>:
+            controller.config.temp_setpoint = t
+            controller.pid.setpoint = t
+    <span class="kw">return</span> <span class="fn">jsonify</span>({<span class="st">"ok"</span>: <span class="kw">True</span>})
+
+<span class="cm"># Example usage:</span>
+<span class="cm"># curl -X POST http://pi.local:5000/api/setpoint \</span>
+<span class="cm">#      -H "Content-Type: application/json"        \</span>
+<span class="cm">#      -d '{"temperature": 37.8, "humidity": 60}'</span>
+
+<span class="cm"># curl http://pi.local:5000/api/history?hours=24</span>
+<span class="cm"># curl -X POST http://pi.local:5000/api/control \</span>
+<span class="cm">#      -d '{"action": "start"}'</span></pre></div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ WIRING ══════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Hardware</div>
+  <h2 class="section-title">GPIO Wiring Reference</h2>
+
+  <table class="wiring-table">
+    <tr>
+      <th>Component</th>
+      <th>Signal</th>
+      <th>RPi GPIO (BCM)</th>
+      <th>Notes</th>
+    </tr>
+    <tr>
+      <td class="component">DHT22</td>
+      <td>Data</td>
+      <td class="pin">GPIO 4</td>
+      <td>10kΩ pull-up to 3.3V</td>
+    </tr>
+    <tr>
+      <td class="component">DS18B20</td>
+      <td>Data (1-Wire)</td>
+      <td class="pin">GPIO 17</td>
+      <td>4.7kΩ pull-up · enable 1-wire in raspi-config</td>
+    </tr>
+    <tr>
+      <td class="component">Relay 1</td>
+      <td>Heater</td>
+      <td class="pin">GPIO 26</td>
+      <td>Active LOW · 250V/10A AC rated</td>
+    </tr>
+    <tr>
+      <td class="component">Relay 2</td>
+      <td>Fan</td>
+      <td class="pin">GPIO 19</td>
+      <td>Active LOW</td>
+    </tr>
+    <tr>
+      <td class="component">Relay 3</td>
+      <td>Humidifier</td>
+      <td class="pin">GPIO 13</td>
+      <td>Active LOW · ultrasonic fogger</td>
+    </tr>
+    <tr>
+      <td class="component">Relay 4</td>
+      <td>Egg Turner</td>
+      <td class="pin">GPIO 6</td>
+      <td>Active LOW (or use Arduino module)</td>
+    </tr>
+    <tr>
+      <td class="component">Buzzer</td>
+      <td>Alarm</td>
+      <td class="pin">GPIO 24</td>
+      <td>Active HIGH · NPN transistor driver</td>
+    </tr>
+    <tr>
+      <td class="component">SSD1306 OLED</td>
+      <td>SDA / SCL</td>
+      <td class="pin">GPIO 2 / 3</td>
+      <td>I2C · enable i2c in raspi-config</td>
+    </tr>
+  </table>
+</section>
+
+<hr class="divider">
+
+<!-- ══ FEATURES ════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Capabilities</div>
+  <h2 class="section-title">What It Does</h2>
+
+  <div class="features-grid">
+    <div class="feature-item">
+      <div class="feature-icon">🌡️</div>
+      <div>
+        <h4>PID Temperature Control</h4>
+        <p>PID algorithm with anti-windup. ±0.5°C tolerance band. Heater and fan coordinated for fast, stable regulation.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">💧</div>
+      <div>
+        <h4>Humidity Management</h4>
+        <p>On/off ultrasonic humidifier control. Auto-increases RH during lockdown phase per egg species profile.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🔄</div>
+      <div>
+        <h4>Egg Turning Schedule</h4>
+        <p>Motorised turning every 4 hours. Alternating direction. Auto-stops in lockdown. Arduino backup module for reliability.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">📡</div>
+      <div>
+        <h4>MQTT Telemetry</h4>
+        <p>Publishes to 3 topics every 10 seconds. Integrates with Node-RED, Home Assistant, Grafana, or any MQTT dashboard.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🌐</div>
+      <div>
+        <h4>Web Dashboard</h4>
+        <p>Flask REST API + live Chart.js dashboard. Adjust setpoints, start/stop, view 24h trends remotely via browser.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🚨</div>
+      <div>
+        <h4>Alarm System</h4>
+        <p>Buzzer + MQTT alert on temp/humidity out-of-range. Sensor failure detection with safe fallback state.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">🥚</div>
+      <div>
+        <h4>5 Egg Species Profiles</h4>
+        <p>Chicken, duck, quail, goose, turkey — each with correct incubation days, temp, humidity, and lockdown day pre-loaded.</p>
+      </div>
+    </div>
+    <div class="feature-item">
+      <div class="feature-icon">💾</div>
+      <div>
+        <h4>Data Logging</h4>
+        <p>JSONL rolling log for every sensor cycle. REST endpoint to query last N hours. Persistent across reboots.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ══ INSTALL ══════════════════════════════════════════ -->
+<section>
+  <div class="section-label">Setup</div>
+  <h2 class="section-title">Get Running in 5 Minutes</h2>
+
+  <div class="install-block">
+    <div><span class="cmt"># Clone the repo</span></div>
+    <div><span class="prompt">$ </span><span class="cmd">git clone https://github.com/YOU/iot-incubator.git</span></div>
+    <div><span class="prompt">$ </span><span class="cmd">cd iot-incubator</span></div>
+    <br>
+    <div><span class="cmt"># Enable hardware interfaces</span></div>
+    <div><span class="prompt">$ </span><span class="cmd">sudo raspi-config</span></div>
+    <div><span class="cmt">  → Interface Options → I2C → Enable</span></div>
+    <div><span class="cmt">  → Interface Options → 1-Wire → Enable</span></div>
+    <br>
+    <div><span class="cmt"># Install Python dependencies</span></div>
+    <div><span class="prompt">$ </span><span class="cmd">pip install -r requirements.txt</span></div>
+    <br>
+    <div><span class="cmt"># Install & start MQTT broker</span></div>
+    <div><span class="prompt">$ </span><span class="cmd">sudo apt install mosquitto mosquitto-clients -y</span></div>
+    <div><span class="prompt">$ </span><span class="cmd">sudo systemctl enable --now mosquitto</span></div>
+    <br>
+    <div><span class="cmt"># Run the controller</span></div>
+    <div><span class="prompt">$ </span><span class="cmd">python incubator_controller.py</span></div>
+    <br>
+    <div><span class="cmt"># Or run with web dashboard</span></div>
+    <div><span class="prompt">$ </span><span class="cmd">python web_dashboard.py</span></div>
+    <div><span class="cmt">  → Open http://&lt;pi-ip&gt;:5000 in your browser</span></div>
+    <br>
+    <div><span class="cmt"># Arduino turner (optional)</span></div>
+    <div><span class="cmt">  → Open egg_turner/egg_turner.ino in Arduino IDE</span></div>
+    <div><span class="cmt">  → Upload to Arduino Nano → connect to Pi via USB serial</span></div>
+  </div>
+</section>
+
+<footer>
+  <p>IoT Smart Incubator · Open Source · MIT License</p>
+  <p style="margin-top:8px;"><a href="#">github.com/you/iot-incubator</a> · Built with Raspberry Pi + Python + Arduino</p>
+</footer>
+
+<script>
+// ── Live terminal simulation ─────────────────────────
+function pad(n) { return n < 10 ? '0'+n : n; }
+
+function randomNear(base, range) {
+  return (base + (Math.random()-0.5)*range*2).toFixed(1);
+}
+
+let turnMin = 138;
+
+function tick() {
+  const now = new Date();
+  const t   = `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+
+  document.getElementById('s-time').textContent = t;
+
+  // Fluctuate sensors
+  const temp = parseFloat(randomNear(37.5, 0.4));
+  const hum  = parseInt(randomNear(57,   2));
+  const egg  = parseFloat(randomNear(37.2, 0.2));
+  const pid  = Math.max(0, Math.min(100, (37.5 - temp) * 80 + 50)).toFixed(1);
+
+  document.getElementById('s-temp').textContent = temp.toFixed(1);
+  document.getElementById('s-hum').textContent  = hum;
+  document.getElementById('s-egg').textContent  = egg.toFixed(1);
+  document.getElementById('s-pid').textContent  = pid;
+
+  // Countdown turn timer
+  turnMin = Math.max(0, turnMin - 1);
+  const h = Math.floor(turnMin / 60), m = turnMin % 60;
+  document.getElementById('s-turn').textContent = `${h}h ${m}m`;
+
+  // Relay logic
+  const heaterOn = temp < 37.5;
+  document.getElementById('r-heat').className = 'relay-pill ' + (heaterOn ? 'relay-on' : 'relay-off');
+  document.getElementById('r-heat').textContent = `HEATER ${heaterOn ? '●' : '○'}`;
+  document.getElementById('r-fan').className = 'relay-pill relay-on';
+
+  // Color temp
+  const tempEl = document.getElementById('s-temp');
+  tempEl.style.color = temp > 38.0 ? '#ff4c6a' : temp < 37.0 ? '#38b4ff' : '#ff7c3a';
+}
+
+setInterval(tick, 1000);
+tick();
+
+// ── Tab switching ────────────────────────────────────
+function showTab(name) {
+  document.querySelectorAll('.code-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+}
+
+// ── Fade-in on scroll ────────────────────────────────
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.arch-card, .feature-item').forEach(el => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+  io.observe(el);
+});
+</script>
+</body>
+</html>
